@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>opentox-prediction</artifactId>
+    <groupId>org.opentox.wrapper</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>org.opentox.wrapper</groupId>
+  <artifactId>otp-www</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>OpenTox prediction services wrapper</name>
+  <dependencies>
+  	
+  	<dependency>
+    	<groupId>org.dbunit</groupId>
+    	<artifactId>dbunit</artifactId>
+    	<version>2.4.8</version>
+    	<scope>test</scope>
+    </dependency>
+  </dependencies>
+    <build>
+  <pluginManagement>
+  <plugins>
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <configuration>
+      <skip>false</skip>
+      <disableXmlReport>false</disableXmlReport>
+      <argLine>-Xmx1024m</argLine>
+     </configuration>
+    </plugin>
+  </plugins>
+  </pluginManagement>
+    <finalName>otp</finalName>
+	<resources>
+		<resource>
+			<directory>src/main/resources</directory>
+			<filtering>true</filtering>
+		</resource>
+	</resources>
+	</build>  
+  <profiles>
+<profile>
+   <id>http</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+			<properties>
+				<web_xml>src/main/resources/web.xml</web_xml>
+
+				<aa.opensso>src/main/resources/web.xml</aa.opensso>
+				<aa.opensso>http://opensso.in-silico.ch/opensso/identity</aa.opensso>
+        		<aa.policy>http://opensso.in-silico.ch/Pol/opensso-pol</aa.policy>
+			</properties>
+   </profile>
+   <profile>
+            <id>https</id>
+ 			<activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>            
+			<properties>
+				<web_xml>src/main/resources/web.https.xml</web_xml>
+				    <aa.opensso>http://opensso.in-silico.ch/opensso/identity</aa.opensso>
+        			<aa.policy>http://opensso.in-silico.ch/Pol/opensso-pol</aa.policy>
+			</properties>			
+	    </profile>
+</profiles>
+</project>

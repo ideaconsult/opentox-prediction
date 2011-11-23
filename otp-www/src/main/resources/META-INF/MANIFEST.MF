@@ -1,0 +1,5 @@
+Package: org.opentox.wrapper
+Main-Class: org.opentox.wrapper.OTPApplication
+Manifest-version: ${project.version}
+Package-Version: ${project.version}
+Package-Vendor: Ideaconsult Ltd.
