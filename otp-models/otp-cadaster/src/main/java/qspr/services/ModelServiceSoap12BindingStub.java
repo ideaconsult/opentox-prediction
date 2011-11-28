@@ -61,6 +61,9 @@ public class ModelServiceSoap12BindingStub extends org.apache.axis.client.Stub i
         param.setOmittable(true);
         param.setNillable(true);
         oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://services.qspr", "priority"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "int"), java.lang.Integer.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://services.qspr/xsd", "CreateEntityResponse"));
         oper.setReturnClass(qspr.services.xsd.CreateEntityResponse.class);
         oper.setReturnQName(new javax.xml.namespace.QName("http://services.qspr", "return"));
@@ -474,7 +477,7 @@ public class ModelServiceSoap12BindingStub extends org.apache.axis.client.Stub i
 }
     }
 
-    public qspr.services.xsd.CreateEntityResponse createModel(java.lang.Long sessionId, java.lang.String modelTemplateXml, java.lang.String modelName, java.lang.String trainingSetName, java.lang.String validationSetName) throws java.rmi.RemoteException {
+    public qspr.services.xsd.CreateEntityResponse createModel(java.lang.Long sessionId, java.lang.String modelTemplateXml, java.lang.String modelName, java.lang.String trainingSetName, java.lang.String validationSetName, java.lang.Integer priority) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -490,7 +493,7 @@ public class ModelServiceSoap12BindingStub extends org.apache.axis.client.Stub i
 
         setRequestHeaders(_call);
         setAttachments(_call);
- try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {sessionId, modelTemplateXml, modelName, trainingSetName, validationSetName});
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {sessionId, modelTemplateXml, modelName, trainingSetName, validationSetName, priority});
 
         if (_resp instanceof java.rmi.RemoteException) {
             throw (java.rmi.RemoteException)_resp;

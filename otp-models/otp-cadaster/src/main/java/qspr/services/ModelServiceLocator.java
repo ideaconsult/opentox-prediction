@@ -22,7 +22,7 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
     }
 
     // Use to get a proxy class for ModelServiceHttpSoap12Endpoint
-    private java.lang.String ModelServiceHttpSoap12Endpoint_address = "http://ochem.eu:80/services/ModelService.ModelServiceHttpSoap12Endpoint/";
+    private java.lang.String ModelServiceHttpSoap12Endpoint_address = "http://qspr-thesaurus.eu:80/services/ModelService.ModelServiceHttpSoap12Endpoint/";
 
     public java.lang.String getModelServiceHttpSoap12EndpointAddress() {
         return ModelServiceHttpSoap12Endpoint_address;
@@ -67,7 +67,7 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
 
 
     // Use to get a proxy class for ModelServiceHttpSoap11Endpoint
-    private java.lang.String ModelServiceHttpSoap11Endpoint_address = "http://ochem.eu:80/services/ModelService.ModelServiceHttpSoap11Endpoint/";
+    private java.lang.String ModelServiceHttpSoap11Endpoint_address = "http://qspr-thesaurus.eu:80/services/ModelService.ModelServiceHttpSoap11Endpoint/";
 
     public java.lang.String getModelServiceHttpSoap11EndpointAddress() {
         return ModelServiceHttpSoap11Endpoint_address;

@@ -66,5 +66,11 @@
     <artifactId>javax.mail-api</artifactId>
     <version>1.4.4</version>
 	</dependency>
+	<dependency>
+		<groupId>net.ideaconsult</groupId>
+		<artifactId>opentox-dsl</artifactId>
+		<version>1.0.3-SNAPSHOT</version>
+		<scope>compile</scope>
+	</dependency>
   </dependencies>
 </project>

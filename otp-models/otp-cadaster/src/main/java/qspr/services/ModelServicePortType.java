@@ -10,7 +10,7 @@ package qspr.services;
 public interface ModelServicePortType extends java.rmi.Remote {
     public qspr.services.xsd.CreateEntityResponse createRecord(java.lang.Long sessionId, qspr.services.xsd.ImportableRecord iRecord) throws java.rmi.RemoteException;
     public qspr.services.xsd.ModelResponse applyModelSingleSDF(java.lang.Long modelId, java.lang.String sdf) throws java.rmi.RemoteException;
-    public qspr.services.xsd.CreateEntityResponse createModel(java.lang.Long sessionId, java.lang.String modelTemplateXml, java.lang.String modelName, java.lang.String trainingSetName, java.lang.String validationSetName) throws java.rmi.RemoteException;
+    public qspr.services.xsd.CreateEntityResponse createModel(java.lang.Long sessionId, java.lang.String modelTemplateXml, java.lang.String modelName, java.lang.String trainingSetName, java.lang.String validationSetName, java.lang.Integer priority) throws java.rmi.RemoteException;
     public qspr.services.xsd.CreateEntityResponse createProperty(java.lang.Long sessionId, qspr.services.xsd.ImportableProperty iProperty) throws java.rmi.RemoteException;
     public qspr.services.xsd.ModelResponse postModel(java.lang.Long modelId, java.lang.String[] sdfs) throws java.rmi.RemoteException;
     public qspr.services.xsd.CreateEntityResponse login(java.lang.String username, java.lang.String password) throws java.rmi.RemoteException;
