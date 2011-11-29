@@ -18,6 +18,20 @@
     	<version>2.4.8</version>
     	<scope>test</scope>
     </dependency>
+  	<dependency>
+  		<groupId>org.opentox.wrapper</groupId>
+  		<artifactId>otp-resource</artifactId>
+  		<version>${project.version}</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.opentox.wrapper</groupId>
+  		<artifactId>otp-cadaster</artifactId>
+  		<version>${project.version}</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
   </dependencies>
     <build>
   <pluginManagement>
@@ -31,6 +45,15 @@
       <argLine>-Xmx1024m</argLine>
      </configuration>
     </plugin>
+      			<plugin>
+  				<groupId>org.codehaus.mojo</groupId>
+  				<artifactId>tomcat-maven-plugin</artifactId>
+  				<configuration>
+					<server>localhost</server>
+					<path>/opentox</path>
+					<port>8088</port>
+				</configuration>
+  			</plugin>
   </plugins>
   </pluginManagement>
     <finalName>otp</finalName>

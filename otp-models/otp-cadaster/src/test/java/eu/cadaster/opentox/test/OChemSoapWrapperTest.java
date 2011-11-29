@@ -2,6 +2,7 @@ package eu.cadaster.opentox.test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.junit.Test;
 import org.opentox.dsl.OTDatasets;
@@ -19,6 +20,7 @@ import qspr.services.xsd.PropertyPrediction;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
+import eu.cadaster.opentox.CadasterModel;
 import eu.cadaster.opentox.OChemSOAPWrapper;
 
 public class OChemSoapWrapperTest {
@@ -49,15 +51,19 @@ public class OChemSoapWrapperTest {
 	
 	@Test
 	public void test() throws Exception {
-		String search = "phenol";
-		OTDatasets d = OTDatasets.datasets(String.format("%s/url/names?search=%s&max=1","http://apps.ideaconsult.net:8080/ambit2/query/compound/search",search));
+		String search = "hydrazine";
+		OTDatasets d = OTDatasets.datasets(String.format("%s/url/names?search=%s&max=1",
+				//"http://apps.ideaconsult.net:8080/ambit2/query/compound/search"
+				"http://nina.ideaconsult.net:8080/ambit2/query/compound/search"
+				,search));
 		d.read();
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
-		Long taskID = wrapper.applyModel(24L,d.getItem(0).getUri());
+		CadasterModel model = new CadasterModel(24);
+		Long taskID = wrapper.applyModel(model,new URL(d.getItem(0).getUri().toString()));
 		if (taskID>0) {
-			OntModel model = wrapper.poll(taskID, 100000,d.getItem(0).getUri());
+			OntModel jenamodel = wrapper.poll(taskID, 100000,new URL(d.getItem(0).getUri().toString()),model);
 			ByteArrayOutputStream o = new ByteArrayOutputStream();
-			OT.write(model, o, MediaType.APPLICATION_RDF_XML, true);
+			OT.write(jenamodel, o, MediaType.APPLICATION_RDF_XML, true);
 			System.out.println(o);
 			
 			RemoteTask task = new RemoteTask(

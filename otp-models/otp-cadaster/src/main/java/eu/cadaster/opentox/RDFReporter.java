@@ -18,10 +18,10 @@ public class RDFReporter {
 	public RDFReporter() {
 		
 	}
-	public OntModel process(String compoundURI,ModelResponse response) throws Exception {
+	public OntModel process(String compoundURI,String modelURI, ModelResponse response) throws Exception {
 		
 		OntModel model = OT.createModel();
-		Individual m = model.createIndividual(OTClass.Model.createOntClass(model));
+		Individual m = model.createIndividual(modelURI,OTClass.Model.createOntClass(model));
 		model.add(m,DC.title,response.getModelDescriptionUrl());
 		Individual d = model.createIndividual(OTClass.Dataset.createOntClass(model));
 		
@@ -37,9 +37,14 @@ public class RDFReporter {
 				//handle error
 				for (PropertyPrediction propred : proppreds) {
 					//value
-					Individual fv = getFeature(model, m, propred.getProperty(), propred.getUnit(), propred.getValue());
+					Individual fv = getFeature(
+							model, m, 
+							null,
+							propred.getProperty(), propred.getUnit(), propred.getValue());
 					model.add(de,OTProperty.values.createProperty(model),fv);
-					fv = getFeature(model, m, String.format("%s_ACCURACY",propred.getProperty()), null, propred.getAccuracy());
+					fv = getFeature(model, m,
+							null,
+							String.format("%s_ACCURACY",propred.getProperty()), null, propred.getAccuracy());
 					model.add(de,OTProperty.values.createProperty(model),fv);
 
 				}
@@ -48,9 +53,9 @@ public class RDFReporter {
 		return model;
 	}
 	
-	protected Individual getFeature(OntModel model,  Individual m,  String property, String units, double value) throws Exception {
+	protected Individual getFeature(OntModel model,  Individual m, String uri, String property, String units, double value) throws Exception {
 		Individual fv = model.createIndividual(OTClass.FeatureValue.createOntClass(model));
-		Individual f = model.createIndividual(OTClass.Feature.createOntClass(model));
+		Individual f = model.createIndividual(uri,OTClass.Feature.createOntClass(model));
 		model.add(f,DC.title,property);
 		model.add(f,OTProperty.hasSource.createProperty(model),m);
 		if (units!=null) model.add(f,DataProperty.units.createProperty(model),units);

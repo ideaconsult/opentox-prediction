@@ -22,6 +22,10 @@ import net.idea.restnet.i.task.ICallableTask;
 import net.idea.restnet.i.task.Task;
 import net.idea.restnet.i.task.TaskResult;
 
+import org.opentox.wrapper.algorithm.AlgorithmResource;
+import org.opentox.wrapper.algorithm.AlgorithmsRouter;
+import org.opentox.wrapper.model.ModelResource;
+import org.opentox.wrapper.model.ModelsRouter;
 import org.restlet.Component;
 import org.restlet.Context;
 import org.restlet.Request;
@@ -119,8 +123,9 @@ public class OTPApplication extends TaskApplication<String> {
 		/**  /task  */
 		router.attach(TaskResource.resource, new TaskRouter(getContext()));
 
-		/**  /protocol  */
-	//	router.attach(IProtocol.resource, new ProtocolRouter(getContext()));
+
+		router.attach(ModelResource.resource, new ModelsRouter(getContext()));
+		router.attach(AlgorithmResource.resource, new AlgorithmsRouter(getContext()));
 		
 		/**
 		 * Queries

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.rmi.RemoteException;
 
 import javax.xml.rpc.ServiceException;
@@ -14,7 +15,7 @@ import net.idea.restnet.c.ChemicalMediaType;
 import org.apache.axis.AxisFault;
 import org.opentox.dsl.task.ClientResourceWrapper;
 import org.opentox.dsl.task.FibonacciSequence;
-import org.restlet.data.Reference;
+import org.opentox.wrapper.model.Model;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
@@ -37,15 +38,14 @@ public class OChemSOAPWrapper {
 	public Long applyModel(Long modelID, InputStream in) throws Exception {
 		return applyModel(modelID, readSDF(in));
 	}
-	public Long applyModel(Long modelID, Reference url) throws Exception {
-		String sdf = readSDF(url.toString());
-		return applyModel(24L,sdf);
+	public Long applyModel(CadasterModel model, URL url) throws Exception {
+		String sdf = readSDF(url);
+		return applyModel(model.getModelID(),sdf);
 	}
 
 	public Long applyModel(Long modelID, String sdf) throws Exception {
 		try {
 			ModelServicePortType stub  = getService();
-
 			ModelResponse modelResponse = stub.postModelSingleSDF(modelID, sdf);
 			return modelResponse.getTaskId();
 		} catch (AxisFault e) {
@@ -54,7 +54,7 @@ public class OChemSOAPWrapper {
 			throw e;
 		}
 	}
-	public OntModel poll(Long taskID, long pollTimeout,Reference compound) throws Exception {
+	public OntModel poll(Long taskID, long pollTimeout,URL compound, CadasterModel model) throws Exception {
 		ModelResponse response = null;
 		FibonacciSequence sequence = new FibonacciSequence();
 
@@ -71,7 +71,7 @@ public class OChemSOAPWrapper {
 		if (response!=null) {
 			if (OChemSOAPWrapper.TaskStatus.success.toString().equals(response.getStatus())) {
 				RDFReporter reporter = new RDFReporter();
-				return reporter.process(compound.toString(),response);
+				return reporter.process(compound.toString(),model.toString(), response);
 			} else return null;
 		}
 		return null;
@@ -160,12 +160,12 @@ public class OChemSOAPWrapper {
 		return service;
 	}
 	
-	 public String readSDF(String uri) throws Exception {
+	 public String readSDF(URL uri) throws Exception {
 			HttpURLConnection uc= null;
 			InputStream in= null;
 			int code = 0;
 			try {
-				uc = ClientResourceWrapper.getHttpURLConnection(uri, "GET", ChemicalMediaType.CHEMICAL_MDLSDF.toString());
+				uc = ClientResourceWrapper.getHttpURLConnection(uri.toString(), "GET", ChemicalMediaType.CHEMICAL_MDLSDF.toString());
 				
 				code = uc.getResponseCode();
 				if (HttpURLConnection.HTTP_OK == code) {

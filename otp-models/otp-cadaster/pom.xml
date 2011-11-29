@@ -72,5 +72,12 @@
 		<version>1.0.3-SNAPSHOT</version>
 		<scope>compile</scope>
 	</dependency>
+	<dependency>
+		<groupId>org.opentox.wrapper</groupId>
+		<artifactId>otp-resource</artifactId>
+		<version>${project.version}</version>
+		<type>jar</type>
+		<scope>compile</scope>
+	</dependency>
   </dependencies>
 </project>
