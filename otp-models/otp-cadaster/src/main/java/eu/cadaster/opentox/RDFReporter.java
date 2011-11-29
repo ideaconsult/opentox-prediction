@@ -37,6 +37,8 @@ public class RDFReporter {
 				//handle error
 				for (PropertyPrediction propred : proppreds) {
 					//value
+
+					
 					Individual fv = getFeature(
 							model, m, 
 							null,
@@ -63,4 +65,7 @@ public class RDFReporter {
 		model.add(fv,DataProperty.value.createProperty(model),model.createTypedLiteral(value));
 		return fv;
 	}
+	
+	
+
 }

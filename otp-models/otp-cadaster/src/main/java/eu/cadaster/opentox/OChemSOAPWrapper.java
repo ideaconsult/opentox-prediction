@@ -15,15 +15,12 @@ import net.idea.restnet.c.ChemicalMediaType;
 import org.apache.axis.AxisFault;
 import org.opentox.dsl.task.ClientResourceWrapper;
 import org.opentox.dsl.task.FibonacciSequence;
-import org.opentox.wrapper.model.Model;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
 import qspr.services.ModelServiceLocator;
 import qspr.services.ModelServicePortType;
 import qspr.services.xsd.ModelResponse;
-import qspr.services.xsd.Prediction;
-import qspr.services.xsd.PropertyPrediction;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
@@ -71,7 +68,7 @@ public class OChemSOAPWrapper {
 		if (response!=null) {
 			if (OChemSOAPWrapper.TaskStatus.success.toString().equals(response.getStatus())) {
 				RDFReporter reporter = new RDFReporter();
-				return reporter.process(compound.toString(),model.toString(), response);
+				return reporter.process(compound.toString(),model.getUri(), response);
 			} else return null;
 		}
 		return null;
@@ -106,52 +103,7 @@ public class OChemSOAPWrapper {
 		return content.toString();
 
 	}
-	public void printResult(ModelResponse modelResponse, boolean fetch) {
-
-		if (fetch) System.out.println("Fetching task ...");
-		else System.out.println("Posting request ...");
-		System.out.println();
-		System.out.println("STATUS:                " + modelResponse.getStatus());
-		if (fetch) {
-			if (modelResponse.getStatus().equals("success")) {
-				System.out.println("MODEL-URL:             " + modelResponse.getModelDescriptionUrl());
-				if (null != modelResponse.getPredictions()) {
-					System.out.println();
-					System.out.println("MODEL RESPONSE:");
-					//
-					Prediction preds[] = modelResponse.getPredictions();
-					System.out.println("| Property                     | Predicted value              | Unit                         | Accuracy                     |");
-					for (int i = 0; i < preds.length; i++) {
-						PropertyPrediction proppred[] = preds[i].getPredictions();
-						if (null == preds[i].getError() && null != proppred) {
-							for (int j = 0; j < proppred.length; j++) {
-								String property = addWhiteSpace(proppred[j].getProperty());
-								String value = addWhiteSpace(proppred[j].getValue() + "");
-								String unit = addWhiteSpace(proppred[j].getUnit());
-								String accuracy = addWhiteSpace(proppred[j].getAccuracy() + "");
-								System.out.println("|" + property + "|" + value + "|" + unit + "|" + accuracy + "|");
-							}
-						}
-						else if (null != preds[i].getError()) {
-							System.out.println("\t" + preds[i].getError());
-						}
-						else {
-							System.out.println("*** UNEXPECTED ERROR ***");
-						}
-					}
-				}
-			}
-		}
-		else
-			System.out.println("TASK-ID:               " + modelResponse.getTaskId());
-	}
 	
-	public static String addWhiteSpace(String str) {
-		str = str + " ";
-		while (str.length() < 30)
-			str = " " + str;
-		return str;
-	}	
 	private ModelServicePortType getService() throws ServiceException
 	{
 

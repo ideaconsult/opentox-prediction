@@ -5,9 +5,9 @@ import java.util.Properties;
 import org.opentox.wrapper.PropertiesIterator;
 
 public class ModelIterator extends PropertiesIterator<Model>{
-
-	public ModelIterator(Properties props,Object query) {
-		super(props,query);
+	
+	public ModelIterator(String prefix,Properties props,Object query) {
+		super(prefix,props,query);
 	}
 
 	@Override
@@ -17,6 +17,7 @@ public class ModelIterator extends PropertiesIterator<Model>{
 			Object alg = clazz.newInstance();
 			if (alg instanceof Model) {
 				((Model) alg).setTitle(key);
+				((Model) alg).setUri(String.format("%s%s/%s",getPrefix(),ModelResource.resource,key));
 				return (Model) alg;
 			}
 			else throw new Exception(String.format("Expected class %s, found %s",Model.class.getName(),clazz));

@@ -9,11 +9,21 @@ public abstract class PropertiesIterator<E> implements Iterator<E> {
 	protected Enumeration keys;
 	protected Object key = null;
 	protected Object query = null;
+	String prefix;
 	
-	public PropertiesIterator(Properties props, Object query) {
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public PropertiesIterator(String prefix,Properties props, Object query) {
 		super();
+		this.prefix = prefix;
 		this.props = props;
-		keys = props.keys();
+		if (query==null) keys = props.keys();
 		this.query = query;
 	}
 	
@@ -33,7 +43,7 @@ public abstract class PropertiesIterator<E> implements Iterator<E> {
 
 	@Override
 	public E next() {
-		if (keys!=null) {
+		if (key!=null) {
 			String value = props.getProperty(key.toString());
 			try {
 				return getItem(key.toString(),value);

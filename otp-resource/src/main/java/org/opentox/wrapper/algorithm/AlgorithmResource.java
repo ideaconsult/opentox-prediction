@@ -31,7 +31,7 @@ public class AlgorithmResource  extends CatalogResource<Algorithm> {
 			in = this.getClass().getClassLoader().getResourceAsStream("algorithm.properties");
 			algorithms.load(in);
 			
-			return new AlgorithmsIterator(algorithms,key);
+			return new AlgorithmsIterator(getRequest().getRootRef().toString(),algorithms,key);
 		} catch (Exception x) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,x);
 		} finally {

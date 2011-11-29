@@ -4,6 +4,9 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 
+import net.idea.modbcum.i.exceptions.AmbitException;
+import net.idea.modbcum.i.processors.IProcessor;
+import net.idea.restnet.c.StringConvertor;
 import net.idea.restnet.c.resource.CatalogResource;
 import net.idea.restnet.i.task.ICallableTask;
 
@@ -15,11 +18,14 @@ import org.restlet.data.Form;
 import org.restlet.data.Method;
 import org.restlet.data.Reference;
 import org.restlet.data.Status;
+import org.restlet.representation.Representation;
+import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 
 public class ModelResource extends CatalogResource<Model>{	
 	public static final String resource = "/model";
 	public static final String resourceKey = "key";
+
 	
 	
 	@Override
@@ -32,12 +38,21 @@ public class ModelResource extends CatalogResource<Model>{
 			in = this.getClass().getClassLoader().getResourceAsStream("model.properties");
 			models.load(in);
 			
-			return new ModelIterator(models,key);
+			return new ModelIterator(getRequest().getRootRef().toString(),models,key);
 		} catch (Exception x) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,x);
 		} finally {
 			try {in.close();} catch (Exception x) {}
 		}
+	}
+	
+	@Override
+	public IProcessor<Iterator<Model>, Representation> createRDFConvertor(
+			Variant variant) throws AmbitException, ResourceException {
+		return
+		 new StringConvertor(
+					new ModelRDFReporter(getRequest(),variant.getMediaType(),getDocumentation())
+					,variant.getMediaType());				
 	}
 	
 	@Override

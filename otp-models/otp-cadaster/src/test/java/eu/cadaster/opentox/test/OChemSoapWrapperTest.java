@@ -89,7 +89,7 @@ public class OChemSoapWrapperTest {
 		long pollInterval = 5000;
 		long pollTimeout = 100000;
 		while ((response==null) || OChemSOAPWrapper.TaskStatus.pending.toString().equals(response.getStatus())) {
-			if (response!=null) wrapper.printResult(response,true);
+			//if (response!=null) wrapper.printResult(response,true);
 			response = wrapper.queryTask(taskID);	
 			
 			long l = sequence.sleepInterval(pollInterval,true,1000 * 60 * 5);
@@ -116,7 +116,7 @@ public class OChemSoapWrapperTest {
 					}
 				}
 			}
-			wrapper.printResult(response,true);
+			//wrapper.printResult(response,true);
 			
 		}
 		return System.currentTimeMillis()-now;

@@ -45,7 +45,7 @@ public class ModelResourceTest extends ResourceTest {
 		int count = 0;
 		while ((line = r.readLine())!= null) {
 			Assert.assertEquals(
-					String.format("http://localhost:%d%s/P1",port,ModelResource.resource)
+					String.format("http://localhost:%d%s/cadaster24",port,ModelResource.resource)
 							, line);
 			count++;
 		}
