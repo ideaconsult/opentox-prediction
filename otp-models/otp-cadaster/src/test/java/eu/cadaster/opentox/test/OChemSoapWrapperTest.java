@@ -51,7 +51,7 @@ public class OChemSoapWrapperTest {
 	
 	@Test
 	public void test() throws Exception {
-		String search = "hydrazine";
+		String search = "pexantel";//"hydrazine";
 		OTDatasets d = OTDatasets.datasets(String.format("%s/url/names?search=%s&max=1",
 				//"http://apps.ideaconsult.net:8080/ambit2/query/compound/search"
 				"http://nina.ideaconsult.net:8080/ambit2/query/compound/search"
@@ -67,7 +67,7 @@ public class OChemSoapWrapperTest {
 			System.out.println(o);
 			
 			RemoteTask task = new RemoteTask(
-					new Reference("http://localhost:8080/ambit2/dataset"),
+					new Reference("http://nina.ideaconsult.net:8080/ambit2/dataset"),
 					MediaType.TEXT_URI_LIST,
 					new StringRepresentation(o.toString(),MediaType.APPLICATION_RDF_XML),
 					Method.POST

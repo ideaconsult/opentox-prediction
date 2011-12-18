@@ -26,5 +26,6 @@
   </dependencies>
   <modules>
   	<module>otp-cadaster</module>
+  	<module>otp-R</module>
   </modules>
 </project>

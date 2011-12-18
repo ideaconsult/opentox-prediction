@@ -16,7 +16,7 @@ public interface ModelServicePortType extends java.rmi.Remote {
     public qspr.services.xsd.CreateEntityResponse login(java.lang.String username, java.lang.String password) throws java.rmi.RemoteException;
     public qspr.services.xsd.CreateEntityResponse getModelStatus(java.lang.Long sessionId, java.lang.Long publicModelID) throws java.rmi.RemoteException;
     public qspr.services.xsd.ModelResponse postModelSingleSDF(java.lang.Long modelId, java.lang.String sdf) throws java.rmi.RemoteException;
-    public qspr.services.xsd.CreateEntityResponse createPropertyAllArguments(java.lang.Long sessionId, java.lang.String name, java.lang.String defaultUnit, java.lang.String description, java.lang.Integer type, java.lang.String tags) throws java.rmi.RemoteException;
+    public qspr.services.xsd.CreateEntityResponse createPropertyAllArguments(java.lang.Long sessionId, java.lang.String name, java.lang.String defaultUnit, java.lang.String description, java.lang.Integer type, java.lang.String tags, java.lang.String options) throws java.rmi.RemoteException;
     public qspr.services.xsd.CreateEntityResponse createRecordAllArguments(java.lang.Long sessionId, java.lang.String propertyName, java.lang.String smiles, java.lang.String articleId, java.lang.String value, java.lang.String unit, java.lang.String name, java.lang.String casRn, java.lang.Boolean hidden, java.lang.String basketName) throws java.rmi.RemoteException;
     public void log(java.lang.String msg) throws java.rmi.RemoteException;
     public qspr.services.xsd.ModelResponse fetchModel(java.lang.Long taskId) throws java.rmi.RemoteException;

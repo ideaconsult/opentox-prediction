@@ -12,6 +12,7 @@ import qspr.services.xsd.PropertyPrediction;
 
 public class WebServiceExample 
 {
+
 	public static void main(String[] args) throws ServiceException, RemoteException 
 	{
 		ModelServiceLocator locator = new ModelServiceLocator();
@@ -19,6 +20,7 @@ public class WebServiceExample
 		
 		// Invoke the prediction service
 		ModelResponse response = service.applyModelSingleSDF(1L, "CCCCC"); // Here we use a SMILES, but any SDF file will work
+		long[] ids = service.getModelIDs(0L, "");
 		
 		// Print the results
 		System.out.println("Status: " + response.getStatus());
@@ -31,5 +33,5 @@ public class WebServiceExample
 				}
 			}
 		}
-	}
+	}	
 }

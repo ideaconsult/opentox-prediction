@@ -14,6 +14,8 @@ public class ImportableProperty  implements java.io.Serializable {
 
     private java.lang.String name;
 
+    private java.lang.String[] options;
+
     private java.lang.String tags;
 
     private java.lang.Integer type;
@@ -25,11 +27,13 @@ public class ImportableProperty  implements java.io.Serializable {
            java.lang.String defaultUnit,
            java.lang.String description,
            java.lang.String name,
+           java.lang.String[] options,
            java.lang.String tags,
            java.lang.Integer type) {
            this.defaultUnit = defaultUnit;
            this.description = description;
            this.name = name;
+           this.options = options;
            this.tags = tags;
            this.type = type;
     }
@@ -96,6 +100,34 @@ public class ImportableProperty  implements java.io.Serializable {
 
 
     /**
+     * Gets the options value for this ImportableProperty.
+     * 
+     * @return options
+     */
+    public java.lang.String[] getOptions() {
+        return options;
+    }
+
+
+    /**
+     * Sets the options value for this ImportableProperty.
+     * 
+     * @param options
+     */
+    public void setOptions(java.lang.String[] options) {
+        this.options = options;
+    }
+
+    public java.lang.String getOptions(int i) {
+        return this.options[i];
+    }
+
+    public void setOptions(int i, java.lang.String _value) {
+        this.options[i] = _value;
+    }
+
+
+    /**
      * Gets the tags value for this ImportableProperty.
      * 
      * @return tags
@@ -155,6 +187,9 @@ public class ImportableProperty  implements java.io.Serializable {
             ((this.name==null && other.getName()==null) || 
              (this.name!=null &&
               this.name.equals(other.getName()))) &&
+            ((this.options==null && other.getOptions()==null) || 
+             (this.options!=null &&
+              java.util.Arrays.equals(this.options, other.getOptions()))) &&
             ((this.tags==null && other.getTags()==null) || 
              (this.tags!=null &&
               this.tags.equals(other.getTags()))) &&
@@ -180,6 +215,17 @@ public class ImportableProperty  implements java.io.Serializable {
         }
         if (getName() != null) {
             _hashCode += getName().hashCode();
+        }
+        if (getOptions() != null) {
+            for (int i=0;
+                 i<java.lang.reflect.Array.getLength(getOptions());
+                 i++) {
+                java.lang.Object obj = java.lang.reflect.Array.get(getOptions(), i);
+                if (obj != null &&
+                    !obj.getClass().isArray()) {
+                    _hashCode += obj.hashCode();
+                }
+            }
         }
         if (getTags() != null) {
             _hashCode += getTags().hashCode();
@@ -217,6 +263,14 @@ public class ImportableProperty  implements java.io.Serializable {
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
         elemField.setMinOccurs(0);
         elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("options");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "options"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
+        elemField.setMaxOccursUnbounded(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("tags");
