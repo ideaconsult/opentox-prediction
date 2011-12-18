@@ -54,12 +54,7 @@ public class ModelResource extends CatalogResource<Model>{
 					new ModelRDFReporter(getRequest(),variant.getMediaType(),getDocumentation())
 					,variant.getMediaType());				
 	}
-	
-	@Override
-	protected Iterator<Model> createPOSTQuery(Context context, Request request,
-			Response response) throws ResourceException {
-		return super.createPOSTQuery(context, request, response);
-	}
+
 	
 	@Override
 	protected ICallableTask createCallable(Method method, Form form, Model item)
