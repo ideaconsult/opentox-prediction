@@ -8,6 +8,8 @@
 package qspr.services.xsd;
 
 public class ModelResponse  implements java.io.Serializable {
+    private java.lang.Long metaserverTaskId;
+
     private java.lang.String modelDescriptionUrl;
 
     private qspr.services.xsd.Prediction[] predictions;
@@ -20,14 +22,36 @@ public class ModelResponse  implements java.io.Serializable {
     }
 
     public ModelResponse(
+           java.lang.Long metaserverTaskId,
            java.lang.String modelDescriptionUrl,
            qspr.services.xsd.Prediction[] predictions,
            java.lang.String status,
            java.lang.Long taskId) {
+           this.metaserverTaskId = metaserverTaskId;
            this.modelDescriptionUrl = modelDescriptionUrl;
            this.predictions = predictions;
            this.status = status;
            this.taskId = taskId;
+    }
+
+
+    /**
+     * Gets the metaserverTaskId value for this ModelResponse.
+     * 
+     * @return metaserverTaskId
+     */
+    public java.lang.Long getMetaserverTaskId() {
+        return metaserverTaskId;
+    }
+
+
+    /**
+     * Sets the metaserverTaskId value for this ModelResponse.
+     * 
+     * @param metaserverTaskId
+     */
+    public void setMetaserverTaskId(java.lang.Long metaserverTaskId) {
+        this.metaserverTaskId = metaserverTaskId;
     }
 
 
@@ -130,6 +154,9 @@ public class ModelResponse  implements java.io.Serializable {
         __equalsCalc = obj;
         boolean _equals;
         _equals = true && 
+            ((this.metaserverTaskId==null && other.getMetaserverTaskId()==null) || 
+             (this.metaserverTaskId!=null &&
+              this.metaserverTaskId.equals(other.getMetaserverTaskId()))) &&
             ((this.modelDescriptionUrl==null && other.getModelDescriptionUrl()==null) || 
              (this.modelDescriptionUrl!=null &&
               this.modelDescriptionUrl.equals(other.getModelDescriptionUrl()))) &&
@@ -153,6 +180,9 @@ public class ModelResponse  implements java.io.Serializable {
         }
         __hashCodeCalc = true;
         int _hashCode = 1;
+        if (getMetaserverTaskId() != null) {
+            _hashCode += getMetaserverTaskId().hashCode();
+        }
         if (getModelDescriptionUrl() != null) {
             _hashCode += getModelDescriptionUrl().hashCode();
         }
@@ -184,6 +214,13 @@ public class ModelResponse  implements java.io.Serializable {
     static {
         typeDesc.setXmlType(new javax.xml.namespace.QName("http://services.qspr/xsd", "ModelResponse"));
         org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("metaserverTaskId");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "metaserverTaskId"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("modelDescriptionUrl");
         elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "modelDescriptionUrl"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));

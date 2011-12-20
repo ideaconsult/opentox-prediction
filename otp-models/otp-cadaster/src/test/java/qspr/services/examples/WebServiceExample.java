@@ -12,7 +12,6 @@ import qspr.services.xsd.PropertyPrediction;
 
 public class WebServiceExample 
 {
-
 	public static void main(String[] args) throws ServiceException, RemoteException 
 	{
 		ModelServiceLocator locator = new ModelServiceLocator();
@@ -33,5 +32,5 @@ public class WebServiceExample
 				}
 			}
 		}
-	}	
+	}
 }

@@ -3,17 +3,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.rmi.RemoteException;
-
 import javax.xml.rpc.ServiceException;
-
 import org.apache.axis.AxisFault;
-
 import qspr.services.ModelServiceLocator;
 import qspr.services.ModelServicePortType;
 import qspr.services.xsd.ModelResponse;
 import qspr.services.xsd.Prediction;
 import qspr.services.xsd.PropertyPrediction;
-
 
 public class TestOchemWS 
 {
