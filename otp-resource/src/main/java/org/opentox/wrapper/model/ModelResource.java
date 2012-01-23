@@ -48,7 +48,9 @@ public class ModelResource extends CatalogResource<Model>{
 	
 	@Override
 	public IProcessor<Iterator<Model>, Representation> createRDFConvertor(
-			Variant variant) throws AmbitException, ResourceException {
+			Variant variant, String filenamePrefix) throws AmbitException,
+			ResourceException {
+
 		return
 		 new StringConvertor(
 					new ModelRDFReporter(getRequest(),variant.getMediaType(),getDocumentation())
