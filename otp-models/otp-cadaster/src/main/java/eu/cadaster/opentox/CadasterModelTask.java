@@ -1,7 +1,10 @@
 package eu.cadaster.opentox;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 
 import net.idea.restnet.c.task.CallableProtectedTask;
 import net.idea.restnet.i.task.TaskResult;
@@ -48,17 +51,16 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 	}
 
 	public TaskResult process(URL url) throws Exception {
-
+		String datasetService = getDatasetService();
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
 		Long taskID = wrapper.applyModel(model,url);
 		if (taskID>0) {
 			OntModel jenaModel = wrapper.poll(taskID, 100000,url,model);
 			ByteArrayOutputStream o = new ByteArrayOutputStream();
 			OT.write(jenaModel, o, MediaType.APPLICATION_RDF_XML, true);
-			System.out.println(o);
 			//got the result, now posting to the data service
 			RemoteTask task = new RemoteTask(
-					new Reference("http://localhost:8080/ambit2/dataset"),
+					new Reference(datasetService),
 					MediaType.TEXT_URI_LIST,
 					new StringRepresentation(o.toString(),MediaType.APPLICATION_RDF_XML),
 					Method.POST
@@ -68,6 +70,18 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 			return new TaskResult(task.getResult().toString(),true);
 		}
 		return null;
+	}
+	
+	protected String getDatasetService() throws Exception {
+		try {
+			Properties p = new Properties();
+			InputStream in = getClass().getClassLoader().getResourceAsStream("eu/cadaster/opentox/cadaster.properties");
+			p.load(in);
+			in.close();
+			return p.getProperty("opentox.service.dataset");
+		} catch (Exception x) {
+			throw x;
+		}
 	}
 	protected RemoteTask wait4task(RemoteTask task, long now) throws Exception {
 

@@ -3,6 +3,7 @@ package eu.cadaster.opentox.test;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.opentox.dsl.OTDatasets;
@@ -49,9 +50,18 @@ public class OChemSoapWrapperTest {
 
 	}
 	
+	
+	@Test
+	public void getAll() throws Exception {
+		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
+		long[] models = wrapper.getAllModels();
+		Arrays.sort(models);
+		for (long model:models)
+		System.out.println(String.format("cadaster%d=eu.cadaster.opentox.CadasterModel",model));
+	}
 	@Test
 	public void test() throws Exception {
-		String search = "pexantel";//"hydrazine";
+		String search = "benzene";//"hydrazine";
 		OTDatasets d = OTDatasets.datasets(String.format("%s/url/names?search=%s&max=1",
 				//"http://apps.ideaconsult.net:8080/ambit2/query/compound/search"
 				"http://nina.ideaconsult.net:8080/ambit2/query/compound/search"
@@ -72,6 +82,8 @@ public class OChemSoapWrapperTest {
 					new StringRepresentation(o.toString(),MediaType.APPLICATION_RDF_XML),
 					Method.POST
 				);
+			while (!task.isDone())
+				task.poll();
 			System.out.println(task);
 			
 		}

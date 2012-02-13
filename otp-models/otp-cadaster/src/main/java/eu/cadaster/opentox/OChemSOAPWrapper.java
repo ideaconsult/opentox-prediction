@@ -104,12 +104,17 @@ public class OChemSOAPWrapper {
 
 	}
 	
+	
 	private ModelServicePortType getService() throws ServiceException
 	{
 
 		ModelServiceLocator locator = new ModelServiceLocator();
 		ModelServicePortType service = locator.getModelServiceHttpSoap11Endpoint();
 		return service;
+	}
+	
+	public long[] getAllModels() throws Exception {
+		return getService().getModelIDs(0L, ""); 	
 	}
 	
 	 public String readSDF(URL uri) throws Exception {
