@@ -69,7 +69,7 @@
 	<dependency>
 		<groupId>net.ideaconsult</groupId>
 		<artifactId>opentox-dsl</artifactId>
-		<version>1.0.3-SNAPSHOT</version>
+		<version>1.0.3</version>
 		<scope>compile</scope>
 	</dependency>
 	<dependency>
@@ -80,4 +80,24 @@
 		<scope>compile</scope>
 	</dependency>
   </dependencies>
+  <profiles>
+      <profile>
+        <id>cadaster-model-local</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+	      <opentox.service.dataset>http://localhost:8080/ambit2/dataset</opentox.service.dataset>
+       </properties>
+    </profile>
+        <profile>
+        <id>cadaster-model-idea</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+	      <opentox.service.dataset>http://apps.ideaconsult.net:8080/ambit2/dataset</opentox.service.dataset>
+       </properties>
+    </profile>
+  </profiles>
 </project>
