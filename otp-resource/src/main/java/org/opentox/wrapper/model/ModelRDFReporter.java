@@ -35,17 +35,26 @@ public class ModelRDFReporter extends CatalogRDFReporter<Model> {
 
 		Individual model = getJenaModel().createIndividual(reporter.getURI(item),
 				OT.OTClass.Model.getOntClass(getJenaModel()));
-		/*
-		model.addProperty(DC.title, item.getName());
+		
+		model.addProperty(DC.title, item.getTitle());
 
-		//model.addProperty(DC.creator,"N/A");
+		//
 		//model.addProperty(DC.date,"N/A");
 		//model.addProperty(DC.format,"N/A");
 		
-		Individual algorithm = getJenaModel().createIndividual(item.getAlgorithm(),
-				OT.OTClass.Algorithm.getOntClass(getJenaModel()));
-		model.addProperty(OT.OTProperty.algorithm.createProperty(getJenaModel()), algorithm);
+		model.addProperty(DC.creator,item.getCreator());
 		
+		if (item.getAlgorithm()!=null) {
+			Individual algorithm ;
+			if (item.getAlgorithm().getUri()==null) {
+				algorithm = getJenaModel().createIndividual(OT.OTClass.Algorithm.getOntClass(getJenaModel()));
+			} else 
+				algorithm = getJenaModel().createIndividual(item.getAlgorithm().getUri(),
+					OT.OTClass.Algorithm.getOntClass(getJenaModel()));
+			model.addProperty(OT.OTProperty.algorithm.createProperty(getJenaModel()), algorithm);
+		}
+		
+		/*
 		if (item.getTrainingInstances()!=null) {
 			Individual dataset = getJenaModel().createIndividual(item.getTrainingInstances(),
 					OT.OTClass.Dataset.getOntClass(getJenaModel()));

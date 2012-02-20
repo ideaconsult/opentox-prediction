@@ -6,7 +6,9 @@ import java.util.Properties;
 
 import net.idea.modbcum.i.exceptions.AmbitException;
 import net.idea.modbcum.i.processors.IProcessor;
+import net.idea.modbcum.i.reporter.Reporter;
 import net.idea.restnet.c.StringConvertor;
+import net.idea.restnet.c.html.HTMLBeauty;
 import net.idea.restnet.c.resource.CatalogResource;
 import net.idea.restnet.c.task.FactoryTaskConvertor;
 import net.idea.restnet.i.task.ICallableTask;
@@ -14,6 +16,7 @@ import net.idea.restnet.i.task.ITaskStorage;
 import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
 import org.opentox.rdf.OpenTox;
+import org.opentox.wrapper.OTHTMLBeauty;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -28,7 +31,7 @@ import org.restlet.resource.ResourceException;
 public class ModelResource extends CatalogResource<Model>{	
 	public static final String resource = "/model";
 	public static final String resourceKey = "key";
-
+	public Object key = null;
 	
 	
 	@Override
@@ -36,7 +39,7 @@ public class ModelResource extends CatalogResource<Model>{
 			Response response) throws ResourceException {
 		InputStream in = null;
 		try {
-			Object key = request.getAttributes().get(resourceKey);
+			key = request.getAttributes().get(resourceKey);
 			Properties models = new Properties();
 			in = this.getClass().getClassLoader().getResourceAsStream("model.properties");
 			models.load(in);
@@ -88,4 +91,12 @@ public class ModelResource extends CatalogResource<Model>{
 		return new FactoryTaskConvertorRDF(storage);
 	}
 
+
+	protected Reporter createHTMLReporter() {
+		return new ModelHTMLReporter(getRequest(),getDocumentation(),getHTMLBeauty(),key==null);
+	}
+	@Override
+	protected HTMLBeauty getHTMLBeauty() {
+		return new OTHTMLBeauty();
+	}
 }

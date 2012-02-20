@@ -61,6 +61,7 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 			OntModel jenaModel = wrapper.poll(taskID, 100000,url,model);
 			ByteArrayOutputStream o = new ByteArrayOutputStream();
 			OT.write(jenaModel, o, MediaType.APPLICATION_RDF_XML, true);
+			
 			//got the result, now posting to the data service
 			RemoteTask task = new RemoteTask(
 					new Reference(datasetService),

@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import net.idea.restnet.c.html.HTMLBeauty;
 import net.idea.restnet.c.resource.CatalogResource;
 import net.idea.restnet.c.task.FactoryTaskConvertor;
 import net.idea.restnet.i.task.ITaskStorage;
 import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
+import org.opentox.wrapper.OTHTMLBeauty;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -43,6 +45,11 @@ public class AlgorithmResource  extends CatalogResource<Algorithm> {
 	protected FactoryTaskConvertor getFactoryTaskConvertor(ITaskStorage storage)
 			throws ResourceException {
 		return new FactoryTaskConvertorRDF(storage);
+	}
+	
+	@Override
+	protected HTMLBeauty getHTMLBeauty() {
+		return new OTHTMLBeauty();
 	}
 
 }

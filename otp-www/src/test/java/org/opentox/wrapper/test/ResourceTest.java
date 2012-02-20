@@ -73,16 +73,7 @@ public abstract class ResourceTest /*extends DbUnitTest */ {
         server.getContext().getParameters().set("tracing", "true",true);             
         component.start();        
 	}
-	/*
-	protected String dbFile = "src/test/resources/org/toxbank/protocol/tb.xml";	
-	public String getDbFile() {
-		return dbFile;
-	}
-
-	protected void setDatabase() throws Exception {
-		setUpDatabase("src/test/resources/org/toxbank/protocol/tables.xml");
-	}
-	*/
+	
 	@After
 	public void tearDown() throws Exception {
 		
