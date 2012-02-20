@@ -1,7 +1,6 @@
 package eu.cadaster.opentox;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
@@ -12,6 +11,7 @@ import net.idea.restnet.i.task.TaskResult;
 import org.opentox.dsl.task.FibonacciSequence;
 import org.opentox.dsl.task.RemoteTask;
 import org.opentox.rdf.OT;
+import org.opentox.rdf.OpenTox;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Reference;
@@ -24,6 +24,7 @@ import com.hp.hpl.jena.ontology.OntModel;
 public class CadasterModelTask extends CallableProtectedTask<String> {
 	protected CadasterModel model;
 	protected URL dataURL;
+	protected URL dataserviceURL;
 	protected long timeout = 100000;
 	 
 	protected long pollInterval = 1500;
@@ -38,9 +39,10 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 		this.timeout = timeout;
 	}
 
-	public CadasterModelTask(String token, CadasterModel model, URL dataURL) {
+	public CadasterModelTask(String token, CadasterModel model, URL dataURL,  URL dataserviceURL) {
 		super(token);
 		this.dataURL = dataURL;
+		this.dataserviceURL = dataserviceURL;
 		this.model = model;
 	}
 
@@ -51,7 +53,8 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 	}
 
 	public TaskResult process(URL url) throws Exception {
-		String datasetService = getDatasetService();
+		String datasetService = dataserviceURL==null?getDatasetService():dataserviceURL.toExternalForm();
+		if ((datasetService==null) || (!datasetService.startsWith("http")) throw new Exception(String.format("Invalid parameter %s=%s",OpenTox.params.dataset_service,datasetService);
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
 		Long taskID = wrapper.applyModel(model,url);
 		if (taskID>0) {

@@ -46,9 +46,10 @@ public class CadasterModel extends Model {
 	@Override
 	public ICallableTask post(String token,Form form) throws Exception {
 		Object dataURL = OpenTox.params.dataset_uri.getFirstValue(form);
+		Object dataServiceURL = OpenTox.params.dataset_service.getFirstValue(form);
 		if (dataURL==null) throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,OpenTox.params.dataset_uri.getDescription());
 		try {
-			return new CadasterModelTask(token, this, new URL(dataURL.toString()));
+			return new CadasterModelTask(token, this, new URL(dataURL.toString()), dataServiceURL==null?null:new URL(dataServiceURL.toString()));
 		} catch (MalformedURLException x) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,dataURL.toString(),x);
 		}
