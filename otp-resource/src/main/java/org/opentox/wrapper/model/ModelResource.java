@@ -8,7 +8,10 @@ import net.idea.modbcum.i.exceptions.AmbitException;
 import net.idea.modbcum.i.processors.IProcessor;
 import net.idea.restnet.c.StringConvertor;
 import net.idea.restnet.c.resource.CatalogResource;
+import net.idea.restnet.c.task.FactoryTaskConvertor;
 import net.idea.restnet.i.task.ICallableTask;
+import net.idea.restnet.i.task.ITaskStorage;
+import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
 import org.opentox.rdf.OpenTox;
 import org.restlet.Context;
@@ -78,4 +81,11 @@ public class ModelResource extends CatalogResource<Model>{
 		return new Reference(OpenTox.params.dataset_uri.getFirstValue(form).toString());
 		} catch (Exception x) {return null;}
 	}
+	
+	@Override
+	protected FactoryTaskConvertor getFactoryTaskConvertor(ITaskStorage storage)
+			throws ResourceException {
+		return new FactoryTaskConvertorRDF(storage);
+	}
+
 }

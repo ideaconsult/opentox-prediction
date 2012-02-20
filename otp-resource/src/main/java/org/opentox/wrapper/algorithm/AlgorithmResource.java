@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Properties;
 
 import net.idea.restnet.c.resource.CatalogResource;
+import net.idea.restnet.c.task.FactoryTaskConvertor;
+import net.idea.restnet.i.task.ITaskStorage;
+import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
 import org.restlet.Context;
 import org.restlet.Request;
@@ -36,5 +39,10 @@ public class AlgorithmResource  extends CatalogResource<Algorithm> {
 		}
 	}
 
+	@Override
+	protected FactoryTaskConvertor getFactoryTaskConvertor(ITaskStorage storage)
+			throws ResourceException {
+		return new FactoryTaskConvertorRDF(storage);
+	}
 
 }

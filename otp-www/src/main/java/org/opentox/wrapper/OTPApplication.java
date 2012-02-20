@@ -14,9 +14,7 @@ import net.idea.restnet.aa.resource.AdminRouter;
 import net.idea.restnet.aa.resource.PolicyResource;
 import net.idea.restnet.c.ChemicalMediaType;
 import net.idea.restnet.c.TaskApplication;
-import net.idea.restnet.c.resource.TaskResource;
 import net.idea.restnet.c.routers.MyRouter;
-import net.idea.restnet.c.routers.TaskRouter;
 import net.idea.restnet.c.task.TaskStorage;
 import net.idea.restnet.i.task.ICallableTask;
 import net.idea.restnet.i.task.Task;
@@ -121,7 +119,7 @@ public class OTPApplication extends TaskApplication<String> {
 		router.attach(DatasetsResource.datasets, createProtectedResource(allDatasetsRouter,"datasets"));		
  */
 		/**  /task  */
-		router.attach(TaskResource.resource, new TaskRouter(getContext()));
+		router.attach(OTTaskResource.resource, new OTTaskRouter(getContext()));
 
 
 		router.attach(ModelResource.resource, new ModelsRouter(getContext()));

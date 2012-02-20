@@ -9,6 +9,6 @@ public class AlgorithmsRouter extends MyRouter {
 	public AlgorithmsRouter(Context context) {
 		super(context);
 		attachDefault(AlgorithmResource.class);
-		attach(String.format("/{%s}",AlgorithmResource.resource, AlgorithmResource.resourceKey), AlgorithmResource.class);
+		attach(String.format("/{%s}", AlgorithmResource.resourceKey), AlgorithmResource.class);
 	}
 }

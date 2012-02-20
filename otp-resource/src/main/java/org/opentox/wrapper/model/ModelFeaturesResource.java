@@ -8,6 +8,9 @@ import org.restlet.Response;
 import org.restlet.resource.ResourceException;
 
 import net.idea.restnet.c.resource.CatalogResource;
+import net.idea.restnet.c.task.FactoryTaskConvertor;
+import net.idea.restnet.i.task.ITaskStorage;
+import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
 public class ModelFeaturesResource extends CatalogResource<Feature> {
 
@@ -16,6 +19,12 @@ public class ModelFeaturesResource extends CatalogResource<Feature> {
 			Response response) throws ResourceException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected FactoryTaskConvertor getFactoryTaskConvertor(ITaskStorage storage)
+			throws ResourceException {
+		return new FactoryTaskConvertorRDF(storage);
 	}
 
 }

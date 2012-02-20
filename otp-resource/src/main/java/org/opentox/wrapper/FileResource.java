@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 
 import net.idea.restnet.c.resource.CatalogResource;
+import net.idea.restnet.c.task.FactoryTaskConvertor;
+import net.idea.restnet.i.task.ITaskStorage;
+import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
 import org.restlet.representation.Representation;
 import org.restlet.representation.Variant;
@@ -64,4 +67,11 @@ public abstract class FileResource<T extends Serializable> extends CatalogResour
 		return null;
 		
 	}	
+	
+	@Override
+	protected FactoryTaskConvertor getFactoryTaskConvertor(ITaskStorage storage)
+			throws ResourceException {
+		return new FactoryTaskConvertorRDF(storage);
+	}
+
 }
