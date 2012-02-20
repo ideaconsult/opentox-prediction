@@ -18,10 +18,12 @@
 	</repository>
   </repositories>
   <dependencies>
+<!--
   <dependency>
   <groupId>com.bedatadriven.renjin</groupId>
   <artifactId>renjin-core</artifactId>
   <version>0.1.2-SNAPSHOT</version>
 </dependency>
+-->
   </dependencies>
 </project>
