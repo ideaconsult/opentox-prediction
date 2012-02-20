@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>otp-models</artifactId>
+    <groupId>org.opentox.wrapper</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>org.opentox.wrapper</groupId>
+  <artifactId>otp-R</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>R</name>
+  <description>Renjin</description>
+  <repositories>
+  <repository>
+  <id>bedatadriven</id>
+  <name>Bedatadriven Public REpo</name>
+  <url>http://nexus.bedatadriven.com/content/groups/public/</url>
+	</repository>
+  </repositories>
+  <dependencies>
+  <dependency>
+  <groupId>com.bedatadriven.renjin</groupId>
+  <artifactId>renjin-core</artifactId>
+  <version>0.1.2-SNAPSHOT</version>
+</dependency>
+  </dependencies>
+</project>
