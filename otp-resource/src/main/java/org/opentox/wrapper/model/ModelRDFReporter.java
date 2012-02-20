@@ -33,7 +33,7 @@ public class ModelRDFReporter extends CatalogRDFReporter<Model> {
 	@Override
 	public void processItem(Model item, Writer output) {
 
-		Individual model = getJenaModel().createIndividual(reporter.getURI(item),
+		Individual model = getJenaModel().createIndividual(reporter.getURI(item).trim(),
 				OT.OTClass.Model.getOntClass(getJenaModel()));
 		
 		model.addProperty(DC.title, item.getTitle());

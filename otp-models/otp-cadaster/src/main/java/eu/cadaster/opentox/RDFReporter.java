@@ -21,7 +21,7 @@ public class RDFReporter {
 	public OntModel process(String compoundURI,String modelURI, ModelResponse response) throws Exception {
 		
 		OntModel model = OT.createModel();
-		Individual m = model.createIndividual(modelURI==null?null:modelURI.toString(),OTClass.Model.createOntClass(model));
+		Individual m = model.createIndividual(modelURI==null?null:modelURI.toString().trim(),OTClass.Model.createOntClass(model));
 		model.add(m,DC.title,response.getModelDescriptionUrl());
 		Individual d = model.createIndividual(OTClass.Dataset.createOntClass(model));
 		
