@@ -91,8 +91,8 @@ public class OTPApplication extends TaskApplication<String> {
 	public Restlet createInboundRoot() {
 		Router router = new MyRouter(this.getContext());
 		
-		router.attach("/", OpenSSOUserResource.class);
-		router.attach("", OpenSSOUserResource.class);
+		router.attach("/", OTUserResource.class);
+		router.attach("", OTUserResource.class);
 
 		/**
 		 *  Points to the Ontology service
