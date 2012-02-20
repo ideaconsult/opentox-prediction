@@ -54,7 +54,7 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 
 	public TaskResult process(URL url) throws Exception {
 		String datasetService = dataserviceURL==null?getDatasetService():dataserviceURL.toExternalForm();
-		if ((datasetService==null) || (!datasetService.startsWith("http")) throw new Exception(String.format("Invalid parameter %s=%s",OpenTox.params.dataset_service,datasetService);
+		if ((datasetService==null) || !datasetService.startsWith("http")) throw new Exception(String.format("Invalid parameter %s=%s",OpenTox.params.dataset_service,datasetService));
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
 		Long taskID = wrapper.applyModel(model,url);
 		if (taskID>0) {
