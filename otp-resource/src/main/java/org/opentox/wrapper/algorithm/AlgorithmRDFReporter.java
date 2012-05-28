@@ -5,9 +5,9 @@ import java.util.Iterator;
 
 import net.idea.restnet.c.ResourceDoc;
 import net.idea.restnet.c.reporters.CatalogURIReporter;
+import net.idea.restnet.rdf.ns.OT;
 import net.idea.restnet.rdf.reporter.CatalogRDFReporter;
 
-import org.opentox.rdf.OT;
 import org.restlet.Request;
 import org.restlet.data.MediaType;
 

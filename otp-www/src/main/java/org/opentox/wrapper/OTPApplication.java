@@ -169,7 +169,7 @@ public class OTPApplication extends TaskApplication<String> {
 	
 	protected Restlet createOpenSSOLoginRouter() {
 		Filter userAuthn = new OpenSSOAuthenticator(getContext(),true,"opentox.org",new OpenSSOVerifierSetUser(false));
-		userAuthn.setNext(OpenSSOUserResource.class);
+		userAuthn.setNext(OTUserResource.class);
 		return userAuthn;
 	}
 
@@ -367,8 +367,6 @@ public class OTPApplication extends TaskApplication<String> {
 		 router.attach("/jme/", jmeDir);
 		 router.attach("/jquery/", jquery);
 		 router.attach("/style/", styleDir);
-		 router.attach("/favicon.ico", FavIconResource.class);
-		 router.attach("/favicon.png", FavIconResource.class);
 	}
 
 

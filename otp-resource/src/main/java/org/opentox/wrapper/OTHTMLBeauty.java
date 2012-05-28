@@ -12,17 +12,15 @@ import org.restlet.data.Reference;
 public class OTHTMLBeauty extends HTMLBeauty {
 	public OTHTMLBeauty() {
 		super();
-
+		setLogoLeft("ambit-logo.png");
+		setLogoRight(null);
 	};
 
 		@Override
 		protected String getHomeURI() {
 			return "http://ambit.sf.net";
 		}
-		@Override
-		protected String getLogoURI(String root) {
-			return "http://ambit.sourceforge.net/images/ambit-logo.png";
-		}
+
 		@Override
 		public String getTitle() {
 			return "OpenTox algorithm and model service";
@@ -38,4 +36,6 @@ public class OTHTMLBeauty extends HTMLBeauty {
 		public String getLoginLink() {
 			return "Login";
 		}
+		
+		
 }

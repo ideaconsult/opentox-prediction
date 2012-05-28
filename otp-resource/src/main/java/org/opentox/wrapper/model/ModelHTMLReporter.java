@@ -10,7 +10,6 @@ import net.idea.restnet.c.ResourceDoc;
 import net.idea.restnet.c.html.HTMLBeauty;
 import net.idea.restnet.c.reporters.CatalogHTMLReporter;
 
-import org.opentox.rdf.OpenTox;
 import org.opentox.wrapper.Resources;
 import org.restlet.Request;
 import org.restlet.data.MediaType;
@@ -25,8 +24,8 @@ public class ModelHTMLReporter extends CatalogHTMLReporter<Model> {
 	protected boolean all = true;
 
 	public ModelHTMLReporter(Request request, ResourceDoc doc,
-			HTMLBeauty htmlbeauty, boolean all) {
-		super(request, doc, htmlbeauty);
+			HTMLBeauty htmlbeauty, boolean headless, boolean all) {
+		super(request, doc, htmlbeauty,headless);
 		this.all = all;
 	}
 
@@ -54,8 +53,8 @@ public class ModelHTMLReporter extends CatalogHTMLReporter<Model> {
 					StringBuilder curlHint = new StringBuilder();
 					curlHint.append("curl -X POST -H 'subjectid:TOKEN'");
 					curlHint.append(String.format(" -H 'Content-Type:%s'",MediaType.APPLICATION_WWW_FORM.getName()));
-					curlHint.append(String.format(" -d '%s=%s'",OpenTox.params.dataset_uri,"Dataset URI"));
-					curlHint.append(String.format(" -d '%s=%s'",OpenTox.params.dataset_service,"Dataset service"));
+					curlHint.append(String.format(" -d '%s=%s'","dataset_uri","Dataset URI"));
+					curlHint.append(String.format(" -d '%s=%s'","dataset_service","Dataset service"));
 					
 					curlHint.append(" ");
 					curlHint.append(uri);

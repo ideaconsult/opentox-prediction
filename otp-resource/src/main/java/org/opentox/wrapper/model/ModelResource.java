@@ -15,7 +15,6 @@ import net.idea.restnet.i.task.ICallableTask;
 import net.idea.restnet.i.task.ITaskStorage;
 import net.idea.restnet.rdf.FactoryTaskConvertorRDF;
 
-import org.opentox.rdf.OpenTox;
 import org.opentox.wrapper.OTHTMLBeauty;
 import org.restlet.Context;
 import org.restlet.Request;
@@ -81,7 +80,7 @@ public class ModelResource extends CatalogResource<Model>{
 	protected Reference getSourceReference(Form form, Model model)
 			throws ResourceException {
 		try {
-		return new Reference(OpenTox.params.dataset_uri.getFirstValue(form).toString());
+		return new Reference(form.getFirstValue("dataset_uri").toString());
 		} catch (Exception x) {return null;}
 	}
 	
@@ -91,9 +90,9 @@ public class ModelResource extends CatalogResource<Model>{
 		return new FactoryTaskConvertorRDF(storage);
 	}
 
-
-	protected Reporter createHTMLReporter() {
-		return new ModelHTMLReporter(getRequest(),getDocumentation(),getHTMLBeauty(),key==null);
+	@Override
+	protected Reporter createHTMLReporter(boolean headles) {
+		return new ModelHTMLReporter(getRequest(),getDocumentation(),getHTMLBeauty(),headless,key==null);
 	}
 	@Override
 	protected HTMLBeauty getHTMLBeauty() {
