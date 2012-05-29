@@ -14,9 +14,13 @@ public class PropertyPrediction  implements java.io.Serializable {
 
     private java.lang.String moleculeId;
 
+    private java.lang.String predictedValueString;
+
     private java.lang.String property;
 
     private java.lang.Double realValue;
+
+    private java.lang.String realValueString;
 
     private java.lang.String unit;
 
@@ -29,15 +33,19 @@ public class PropertyPrediction  implements java.io.Serializable {
            java.lang.Double accuracy,
            java.lang.String error,
            java.lang.String moleculeId,
+           java.lang.String predictedValueString,
            java.lang.String property,
            java.lang.Double realValue,
+           java.lang.String realValueString,
            java.lang.String unit,
            java.lang.Double value) {
            this.accuracy = accuracy;
            this.error = error;
            this.moleculeId = moleculeId;
+           this.predictedValueString = predictedValueString;
            this.property = property;
            this.realValue = realValue;
+           this.realValueString = realValueString;
            this.unit = unit;
            this.value = value;
     }
@@ -104,6 +112,26 @@ public class PropertyPrediction  implements java.io.Serializable {
 
 
     /**
+     * Gets the predictedValueString value for this PropertyPrediction.
+     * 
+     * @return predictedValueString
+     */
+    public java.lang.String getPredictedValueString() {
+        return predictedValueString;
+    }
+
+
+    /**
+     * Sets the predictedValueString value for this PropertyPrediction.
+     * 
+     * @param predictedValueString
+     */
+    public void setPredictedValueString(java.lang.String predictedValueString) {
+        this.predictedValueString = predictedValueString;
+    }
+
+
+    /**
      * Gets the property value for this PropertyPrediction.
      * 
      * @return property
@@ -140,6 +168,26 @@ public class PropertyPrediction  implements java.io.Serializable {
      */
     public void setRealValue(java.lang.Double realValue) {
         this.realValue = realValue;
+    }
+
+
+    /**
+     * Gets the realValueString value for this PropertyPrediction.
+     * 
+     * @return realValueString
+     */
+    public java.lang.String getRealValueString() {
+        return realValueString;
+    }
+
+
+    /**
+     * Sets the realValueString value for this PropertyPrediction.
+     * 
+     * @param realValueString
+     */
+    public void setRealValueString(java.lang.String realValueString) {
+        this.realValueString = realValueString;
     }
 
 
@@ -203,12 +251,18 @@ public class PropertyPrediction  implements java.io.Serializable {
             ((this.moleculeId==null && other.getMoleculeId()==null) || 
              (this.moleculeId!=null &&
               this.moleculeId.equals(other.getMoleculeId()))) &&
+            ((this.predictedValueString==null && other.getPredictedValueString()==null) || 
+             (this.predictedValueString!=null &&
+              this.predictedValueString.equals(other.getPredictedValueString()))) &&
             ((this.property==null && other.getProperty()==null) || 
              (this.property!=null &&
               this.property.equals(other.getProperty()))) &&
             ((this.realValue==null && other.getRealValue()==null) || 
              (this.realValue!=null &&
               this.realValue.equals(other.getRealValue()))) &&
+            ((this.realValueString==null && other.getRealValueString()==null) || 
+             (this.realValueString!=null &&
+              this.realValueString.equals(other.getRealValueString()))) &&
             ((this.unit==null && other.getUnit()==null) || 
              (this.unit!=null &&
               this.unit.equals(other.getUnit()))) &&
@@ -235,11 +289,17 @@ public class PropertyPrediction  implements java.io.Serializable {
         if (getMoleculeId() != null) {
             _hashCode += getMoleculeId().hashCode();
         }
+        if (getPredictedValueString() != null) {
+            _hashCode += getPredictedValueString().hashCode();
+        }
         if (getProperty() != null) {
             _hashCode += getProperty().hashCode();
         }
         if (getRealValue() != null) {
             _hashCode += getRealValue().hashCode();
+        }
+        if (getRealValueString() != null) {
+            _hashCode += getRealValueString().hashCode();
         }
         if (getUnit() != null) {
             _hashCode += getUnit().hashCode();
@@ -279,6 +339,13 @@ public class PropertyPrediction  implements java.io.Serializable {
         elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("predictedValueString");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "predictedValueString"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("property");
         elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "property"));
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
@@ -291,6 +358,13 @@ public class PropertyPrediction  implements java.io.Serializable {
         elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "double"));
         elemField.setMinOccurs(0);
         elemField.setNillable(false);
+        typeDesc.addFieldDesc(elemField);
+        elemField = new org.apache.axis.description.ElementDesc();
+        elemField.setFieldName("realValueString");
+        elemField.setXmlName(new javax.xml.namespace.QName("http://services.qspr/xsd", "realValueString"));
+        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
+        elemField.setMinOccurs(0);
+        elemField.setNillable(true);
         typeDesc.addFieldDesc(elemField);
         elemField = new org.apache.axis.description.ElementDesc();
         elemField.setFieldName("unit");

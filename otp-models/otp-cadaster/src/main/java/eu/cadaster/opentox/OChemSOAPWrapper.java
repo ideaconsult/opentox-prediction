@@ -114,7 +114,7 @@ public class OChemSOAPWrapper {
 	}
 	
 	public long[] getAllModels() throws Exception {
-		return getService().getModelIDs(0L, ""); 	
+		return getService().getModelIDs("", ""); 	
 	}
 	
 	 public String readSDF(URL uri) throws Exception {

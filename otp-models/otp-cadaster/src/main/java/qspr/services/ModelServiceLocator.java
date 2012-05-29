@@ -21,51 +21,6 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
         super(wsdlLoc, sName);
     }
 
-    // Use to get a proxy class for ModelServiceHttpSoap12Endpoint
-    private java.lang.String ModelServiceHttpSoap12Endpoint_address = "http://qspr-thesaurus.eu:80/services/ModelService.ModelServiceHttpSoap12Endpoint/";
-
-    public java.lang.String getModelServiceHttpSoap12EndpointAddress() {
-        return ModelServiceHttpSoap12Endpoint_address;
-    }
-
-    // The WSDD service name defaults to the port name.
-    private java.lang.String ModelServiceHttpSoap12EndpointWSDDServiceName = "ModelServiceHttpSoap12Endpoint";
-
-    public java.lang.String getModelServiceHttpSoap12EndpointWSDDServiceName() {
-        return ModelServiceHttpSoap12EndpointWSDDServiceName;
-    }
-
-    public void setModelServiceHttpSoap12EndpointWSDDServiceName(java.lang.String name) {
-        ModelServiceHttpSoap12EndpointWSDDServiceName = name;
-    }
-
-    public qspr.services.ModelServicePortType getModelServiceHttpSoap12Endpoint() throws javax.xml.rpc.ServiceException {
-       java.net.URL endpoint;
-        try {
-            endpoint = new java.net.URL(ModelServiceHttpSoap12Endpoint_address);
-        }
-        catch (java.net.MalformedURLException e) {
-            throw new javax.xml.rpc.ServiceException(e);
-        }
-        return getModelServiceHttpSoap12Endpoint(endpoint);
-    }
-
-    public qspr.services.ModelServicePortType getModelServiceHttpSoap12Endpoint(java.net.URL portAddress) throws javax.xml.rpc.ServiceException {
-        try {
-            qspr.services.ModelServiceSoap12BindingStub _stub = new qspr.services.ModelServiceSoap12BindingStub(portAddress, this);
-            _stub.setPortName(getModelServiceHttpSoap12EndpointWSDDServiceName());
-            return _stub;
-        }
-        catch (org.apache.axis.AxisFault e) {
-            return null;
-        }
-    }
-
-    public void setModelServiceHttpSoap12EndpointEndpointAddress(java.lang.String address) {
-        ModelServiceHttpSoap12Endpoint_address = address;
-    }
-
-
     // Use to get a proxy class for ModelServiceHttpSoap11Endpoint
     private java.lang.String ModelServiceHttpSoap11Endpoint_address = "http://qspr-thesaurus.eu:80/services/ModelService.ModelServiceHttpSoap11Endpoint/";
 
@@ -114,16 +69,9 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
      * For the given interface, get the stub implementation.
      * If this service has no port for the given interface,
      * then ServiceException is thrown.
-     * This service has multiple ports for a given interface;
-     * the proxy implementation returned may be indeterminate.
      */
     public java.rmi.Remote getPort(Class serviceEndpointInterface) throws javax.xml.rpc.ServiceException {
         try {
-            if (qspr.services.ModelServicePortType.class.isAssignableFrom(serviceEndpointInterface)) {
-                qspr.services.ModelServiceSoap12BindingStub _stub = new qspr.services.ModelServiceSoap12BindingStub(new java.net.URL(ModelServiceHttpSoap12Endpoint_address), this);
-                _stub.setPortName(getModelServiceHttpSoap12EndpointWSDDServiceName());
-                return _stub;
-            }
             if (qspr.services.ModelServicePortType.class.isAssignableFrom(serviceEndpointInterface)) {
                 qspr.services.ModelServiceSoap11BindingStub _stub = new qspr.services.ModelServiceSoap11BindingStub(new java.net.URL(ModelServiceHttpSoap11Endpoint_address), this);
                 _stub.setPortName(getModelServiceHttpSoap11EndpointWSDDServiceName());
@@ -146,10 +94,7 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
             return getPort(serviceEndpointInterface);
         }
         java.lang.String inputPortName = portName.getLocalPart();
-        if ("ModelServiceHttpSoap12Endpoint".equals(inputPortName)) {
-            return getModelServiceHttpSoap12Endpoint();
-        }
-        else if ("ModelServiceHttpSoap11Endpoint".equals(inputPortName)) {
+        if ("ModelServiceHttpSoap11Endpoint".equals(inputPortName)) {
             return getModelServiceHttpSoap11Endpoint();
         }
         else  {
@@ -168,7 +113,6 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
     public java.util.Iterator getPorts() {
         if (ports == null) {
             ports = new java.util.HashSet();
-            ports.add(new javax.xml.namespace.QName("http://services.qspr", "ModelServiceHttpSoap12Endpoint"));
             ports.add(new javax.xml.namespace.QName("http://services.qspr", "ModelServiceHttpSoap11Endpoint"));
         }
         return ports.iterator();
@@ -179,10 +123,6 @@ public class ModelServiceLocator extends org.apache.axis.client.Service implemen
     */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         
-if ("ModelServiceHttpSoap12Endpoint".equals(portName)) {
-            setModelServiceHttpSoap12EndpointEndpointAddress(address);
-        }
-        else 
 if ("ModelServiceHttpSoap11Endpoint".equals(portName)) {
             setModelServiceHttpSoap11EndpointEndpointAddress(address);
         }
