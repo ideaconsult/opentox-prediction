@@ -42,8 +42,13 @@ public class ModelResource extends CatalogResource<Model>{
 			Properties models = new Properties();
 			in = this.getClass().getClassLoader().getResourceAsStream("model.properties");
 			models.load(in);
+			try {in.close();} catch (Exception x) {}
 			
-			return new ModelIterator(getRequest().getRootRef().toString(),models,key);
+			Properties modelNames = new Properties();
+			in = this.getClass().getClassLoader().getResourceAsStream("modelnames.properties");
+			modelNames.load(in);
+			
+			return new ModelIterator(getRequest().getRootRef().toString(),models,key,modelNames);
 		} catch (Exception x) {
 			throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST,x);
 		} finally {
