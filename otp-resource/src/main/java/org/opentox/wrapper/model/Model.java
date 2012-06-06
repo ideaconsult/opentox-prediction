@@ -10,7 +10,16 @@ public class Model  extends OTResource {
 	 */
 	private static final long serialVersionUID = -8613828652999405200L;
 	protected String creator;
+	protected String id;
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getCreator() {
 		return creator;
 	}
@@ -21,7 +30,7 @@ public class Model  extends OTResource {
 
 	@Override
 	public String toString() {
-		return String.format("model/%s",getTitle());
+		return String.format("model/%s",getId());
 	}
 	protected Algorithm algorithm;
 	

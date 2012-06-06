@@ -16,7 +16,11 @@ public class WebServiceExample
 	{
 		ModelServiceLocator locator = new ModelServiceLocator();
 		ModelServicePortType service = locator.getModelServiceHttpSoap11Endpoint();
-		
+		//String sessionID = service.login();
+		//System.out.println(sessionID);
+		//String modelName = service.getModelName(sessionID, 47L);
+		//System.out.println(modelName);
+
 		// Invoke the prediction service
 		ModelResponse response = service.applyModelSingleSDF(47L, "CCCCC"); // Here we use a SMILES, but any SDF file will work
 		//long[] ids = service.getModelIDs("", "");

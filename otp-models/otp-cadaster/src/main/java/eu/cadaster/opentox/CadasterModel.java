@@ -13,26 +13,29 @@ import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
 public class CadasterModel extends Model {
-	protected long modelID = -1;
+
 	
 	public CadasterModel() {
 		this(-1);
 	}
 
 	public CadasterModel(long modelid) {
-		setModelID(modelid);
+	//	setModelID(modelid);
 		setCreator("EU FP7 CADASTER project www.cadaster.eu");
 
 	}
 	
+
 	public long getModelID() {
-		return modelID;
+		return Integer.parseInt(getId().substring(8));
 	}
 	
-	
-
-	public void setModelID(long modelID) {
-		this.modelID = modelID;
+	@Override
+	public void setId(String id) {
+		super.setId(id);
+		long modelID = getModelID();
+		if (modelID>0)
+			setTitle(String.format("cadaster%d", modelID));
 		if (algorithm==null) algorithm = new Algorithm();
 		algorithm.setUri(String.format("http://qspr-thesaurus.eu/model/%d",modelID));
 		setAlgorithm(algorithm);
@@ -42,12 +45,6 @@ public class CadasterModel extends Model {
 	 * 
 	 */
 	private static final long serialVersionUID = 4124667104351369051L;
-
-	@Override
-	public void setTitle(String title) {
-		super.setTitle(title);//String.format("Wrapper for %s model",title.toUpperCase()));
-		setModelID(Integer.parseInt(title.substring(8)));
-	}
 	
 	@Override
 	public ICallableTask post(String token,Form form) throws Exception {
