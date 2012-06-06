@@ -34,7 +34,7 @@ public class CadasterModel extends Model {
 	public void setModelID(long modelID) {
 		this.modelID = modelID;
 		if (algorithm==null) algorithm = new Algorithm();
-		algorithm.setUri(String.format("http://ochem.eu/model/%d",modelID));
+		algorithm.setUri(String.format("http://qspr-thesaurus.eu/model/%d",modelID));
 		setAlgorithm(algorithm);
 	}
 
