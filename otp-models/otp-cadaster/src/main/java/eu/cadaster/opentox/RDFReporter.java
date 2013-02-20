@@ -5,9 +5,9 @@ import org.opentox.rdf.OT.DataProperty;
 import org.opentox.rdf.OT.OTClass;
 import org.opentox.rdf.OT.OTProperty;
 
-import qspr.services.xsd.ModelResponse;
-import qspr.services.xsd.Prediction;
-import qspr.services.xsd.PropertyPrediction;
+import qspr.services.ModelServiceStub.ModelResponse;
+import qspr.services.ModelServiceStub.Prediction;
+import qspr.services.ModelServiceStub.PropertyPrediction;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -38,7 +38,7 @@ public class RDFReporter {
 				for (PropertyPrediction propred : proppreds) {
 					//value
 
-					
+					//TODO units & app domain
 					Individual fv = getFeature(
 							model, m, 
 							null,

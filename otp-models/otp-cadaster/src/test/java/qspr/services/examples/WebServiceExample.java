@@ -1,40 +1,65 @@
 package qspr.services.examples;
 
-import java.rmi.RemoteException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-import javax.xml.rpc.ServiceException;
-
-import qspr.services.ModelServiceLocator;
-import qspr.services.ModelServicePortType;
-import qspr.services.xsd.ModelResponse;
-import qspr.services.xsd.Prediction;
-import qspr.services.xsd.PropertyPrediction;
+import qspr.services.ModelServiceStub;
+import qspr.services.ModelServiceStub.ApplyModelSingleSDF;
+import qspr.services.ModelServiceStub.ApplyModelSingleSDFResponse;
+import qspr.services.ModelServiceStub.ModelResponse;
+import qspr.services.ModelServiceStub.Prediction;
+import qspr.services.ModelServiceStub.PropertyPrediction;
 
 public class WebServiceExample 
 {
-	public static void main(String[] args) throws ServiceException, RemoteException 
-	{
-		ModelServiceLocator locator = new ModelServiceLocator();
-		ModelServicePortType service = locator.getModelServiceHttpSoap11Endpoint();
-		//String sessionID = service.login();
-		//System.out.println(sessionID);
-		//String modelName = service.getModelName(sessionID, 47L);
-		//System.out.println(modelName);
+	public static void main(String[] args) throws Exception {
+		ModelServiceStub client = new ModelServiceStub();
+		ApplyModelSingleSDF arg = new ApplyModelSingleSDF();
+		String sdf = readSdfFromFile("tmp.sdf");
+		arg.setModelId(47L);
+		arg.setSdf(sdf);
+		ApplyModelSingleSDFResponse response = client.applyModelSingleSDF(arg);
 
-		// Invoke the prediction service
-		ModelResponse response = service.applyModelSingleSDF(47L, "CCCCC"); // Here we use a SMILES, but any SDF file will work
-		//long[] ids = service.getModelIDs("", "");
+		ModelResponse mr = response.get_return();
+		if (!mr.getStatus().equals("success"))
+			throw new IOException(mr.getStatus());
 		
-		// Print the results
-		System.out.println("Status: " + response.getStatus());
-		if ("success".equals(response.getStatus()))
-		{
-			for (Prediction prediction : response.getPredictions()) 
-			{
-				for (PropertyPrediction propertyPrediction : prediction.getPredictions()) {
-					System.out.println("Prediction for " + propertyPrediction.getProperty() + " is " + propertyPrediction.getValue());
+		for (Prediction prediction : mr.getPredictions())  {
+			if (prediction.getError() != null) 	{
+				System.out.println(prediction.getError());
+			}
+			else {
+				PropertyPrediction[] properties = prediction.getPredictions();
+				for (PropertyPrediction propertyPrediction :properties) {
+					System.out.println("Prediction for " + propertyPrediction.getProperty() + 
+							" is " + propertyPrediction.getValue() + " " 
+							+ propertyPrediction.getUnit()  + " Accuracy:" +
+							propertyPrediction.getAccuracy()  + " In domain:" +
+							propertyPrediction.getInAd()  
+							);
 				}
 			}
+		}
+		
+	}
+	
+	private static String readSdfFromFile(String path) throws Exception {
+		InputStream in = null;
+		try {
+			in = WebServiceExample.class.getClassLoader().getResourceAsStream(path);
+			StringBuffer sdf = new StringBuffer();
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String line;
+			while ((line = br.readLine()) != null)
+				sdf.append(line+"\n");
+			br.close();
+			return sdf.toString();
+		} catch (Exception x) {
+			throw x;
+		} finally {
+			if (in !=null) in.close();
 		}
 	}
 }

@@ -8,19 +8,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.rmi.RemoteException;
 
-import javax.xml.rpc.ServiceException;
-
 import net.idea.restnet.c.ChemicalMediaType;
 
-import org.apache.axis.AxisFault;
+import org.apache.axis2.AxisFault;
 import org.opentox.dsl.task.ClientResourceWrapper;
 import org.opentox.dsl.task.FibonacciSequence;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
-import qspr.services.ModelServiceLocator;
-import qspr.services.ModelServicePortType;
-import qspr.services.xsd.ModelResponse;
+import qspr.services.ModelServiceStub;
+import qspr.services.ModelServiceStub.ApplyModelSingleSDF;
+import qspr.services.ModelServiceStub.ApplyModelSingleSDFWithUnits;
+import qspr.services.ModelServiceStub.ApplyModelSingleSDFWithUnitsResponse;
+import qspr.services.ModelServiceStub.ModelResponse;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
@@ -42,9 +42,13 @@ public class OChemSOAPWrapper {
 
 	public Long applyModel(Long modelID, String sdf) throws Exception {
 		try {
-			ModelServicePortType stub  = getService();
-			ModelResponse modelResponse = stub.postModelSingleSDF(modelID, sdf);
-			return modelResponse.getTaskId();
+			ModelServiceStub client = new ModelServiceStub();
+			ApplyModelSingleSDFWithUnits arg = new ApplyModelSingleSDFWithUnits();
+			arg.setModelId(modelID);
+			arg.setSdf(sdf);
+			ApplyModelSingleSDFWithUnitsResponse response = client.applyModelSingleSDFWithUnits(arg);
+			
+			return response.getTaskId();
 		} catch (AxisFault e) {
 			throw e;
 		} catch (RemoteException e) {
