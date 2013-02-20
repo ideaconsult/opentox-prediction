@@ -19,6 +19,8 @@ import org.restlet.data.Status;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ResourceException;
 
+import qspr.services.ModelServiceStub;
+
 import com.hp.hpl.jena.ontology.OntModel;
 
 public class CadasterModelTask extends CallableProtectedTask<String> {
@@ -58,7 +60,15 @@ public class CadasterModelTask extends CallableProtectedTask<String> {
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
 		Long taskID = wrapper.applyModel(model,url);
 		if (taskID>0) {
-			OntModel jenaModel = wrapper.poll(taskID, 100000,url,model);
+			ModelServiceStub client = new ModelServiceStub();
+			OntModel jenaModel = null;
+			try {
+				jenaModel = wrapper.poll(client,taskID, 100000,url,model);
+			} catch (Exception x) {
+				throw x;
+			} finally {
+				try { client.cleanup(); } catch (Exception x) {}
+			}
 			ByteArrayOutputStream o = new ByteArrayOutputStream();
 			OT.write(jenaModel, o, MediaType.APPLICATION_RDF_XML, true);
 			

@@ -15,9 +15,11 @@ import org.restlet.data.Method;
 import org.restlet.data.Reference;
 import org.restlet.representation.StringRepresentation;
 
-import qspr.services.xsd.ModelResponse;
-import qspr.services.xsd.Prediction;
-import qspr.services.xsd.PropertyPrediction;
+import qspr.services.ModelServiceStub;
+import qspr.services.ModelServiceStub.GetModelName;
+import qspr.services.ModelServiceStub.ModelResponse;
+import qspr.services.ModelServiceStub.Prediction;
+import qspr.services.ModelServiceStub.PropertyPrediction;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
@@ -54,10 +56,16 @@ public class OChemSoapWrapperTest {
 	@Test
 	public void getAll() throws Exception {
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
-		long[] models = wrapper.getAllModels();
+		ModelServiceStub client = new ModelServiceStub();
+		long[] models = wrapper.getAllModels(client);
 		Arrays.sort(models);
-		for (long model:models)
-		System.out.println(String.format("cadaster%d=eu.cadaster.opentox.CadasterModel",model));
+		for (long model:models) {
+			System.out.println(String.format("cadaster%d=eu.cadaster.opentox.CadasterModel",model));
+			GetModelName getModelNameArg = new GetModelName();
+			getModelNameArg.setPublicModelID(model);
+			String name = client.getModelName(getModelNameArg).get_return();
+			System.out.println(model+" - "+name);
+		}
 	}
 	@Test
 	public void test() throws Exception {
@@ -68,10 +76,12 @@ public class OChemSoapWrapperTest {
 				,search));
 		d.read();
 		OChemSOAPWrapper wrapper = new OChemSOAPWrapper();
+		ModelServiceStub client= new ModelServiceStub();
 		CadasterModel model = new CadasterModel(24);
 		Long taskID = wrapper.applyModel(model,new URL(d.getItem(0).getUri().toString()));
 		if (taskID>0) {
-			OntModel jenamodel = wrapper.poll(taskID, 100000,new URL(d.getItem(0).getUri().toString()),model);
+			OntModel jenamodel = wrapper.poll(client,taskID, 100000,new URL(d.getItem(0).getUri().toString()),model);
+			client.cleanup();
 			ByteArrayOutputStream o = new ByteArrayOutputStream();
 			OT.write(jenamodel, o, MediaType.APPLICATION_RDF_XML, true);
 			System.out.println(o);
@@ -87,6 +97,7 @@ public class OChemSoapWrapperTest {
 			System.out.println(task);
 			
 		}
+		
 	}
 	public long run() throws Exception {
 		InputStream in = getClass().getClassLoader().getResourceAsStream("tmp.sdf");
@@ -96,13 +107,13 @@ public class OChemSoapWrapperTest {
 		
 		ModelResponse response = null;
 		FibonacciSequence sequence = new FibonacciSequence();
-
+		ModelServiceStub client = new ModelServiceStub();
 		long now = System.currentTimeMillis();
 		long pollInterval = 5000;
 		long pollTimeout = 100000;
 		while ((response==null) || OChemSOAPWrapper.TaskStatus.pending.toString().equals(response.getStatus())) {
 			//if (response!=null) wrapper.printResult(response,true);
-			response = wrapper.queryTask(taskID);	
+			response = wrapper.queryTask(client,taskID);	
 			
 			long l = sequence.sleepInterval(pollInterval,true,1000 * 60 * 5);
 			Thread.sleep(l); 				
@@ -110,6 +121,7 @@ public class OChemSoapWrapperTest {
 			if ((System.currentTimeMillis()-now) > pollTimeout)  
 				throw new Exception("Timeout");
 		}
+		client.cleanup();
 		if (response!=null) {
 			if (OChemSOAPWrapper.TaskStatus.success.toString().equals(response.getStatus())) {
 				Prediction preds[] = response.getPredictions();

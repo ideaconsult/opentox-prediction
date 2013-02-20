@@ -6,21 +6,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.rmi.RemoteException;
 
 import net.idea.restnet.c.ChemicalMediaType;
 
-import org.apache.axis2.AxisFault;
 import org.opentox.dsl.task.ClientResourceWrapper;
 import org.opentox.dsl.task.FibonacciSequence;
 import org.restlet.data.Status;
 import org.restlet.resource.ResourceException;
 
 import qspr.services.ModelServiceStub;
-import qspr.services.ModelServiceStub.ApplyModelSingleSDF;
-import qspr.services.ModelServiceStub.ApplyModelSingleSDFWithUnits;
-import qspr.services.ModelServiceStub.ApplyModelSingleSDFWithUnitsResponse;
+import qspr.services.ModelServiceStub.FetchModel;
+import qspr.services.ModelServiceStub.GetModelIDs;
 import qspr.services.ModelServiceStub.ModelResponse;
+import qspr.services.ModelServiceStub.PostModel;
 
 import com.hp.hpl.jena.ontology.OntModel;
 
@@ -41,28 +39,30 @@ public class OChemSOAPWrapper {
 	}
 
 	public Long applyModel(Long modelID, String sdf) throws Exception {
+		ModelServiceStub client = null;
 		try {
-			ModelServiceStub client = new ModelServiceStub();
-			ApplyModelSingleSDFWithUnits arg = new ApplyModelSingleSDFWithUnits();
-			arg.setModelId(modelID);
-			arg.setSdf(sdf);
-			ApplyModelSingleSDFWithUnitsResponse response = client.applyModelSingleSDFWithUnits(arg);
-			
-			return response.getTaskId();
-		} catch (AxisFault e) {
+			client = new ModelServiceStub();
+			PostModel postModelArg = new PostModel();
+			String[] sdfs = new String[] {sdf}; 
+			//We should ensure single molecule per array item
+			postModelArg.setModelId(modelID);
+			postModelArg.setSdfs(sdfs);
+			ModelResponse postModelResp = client.postModel(postModelArg).get_return();
+			return postModelResp.getTaskId();
+		} catch (Exception e) {
 			throw e;
-		} catch (RemoteException e) {
-			throw e;
+		} finally {
+			try { client.cleanup(); } catch (Exception x) {}
 		}
 	}
-	public OntModel poll(Long taskID, long pollTimeout,URL compound, CadasterModel model) throws Exception {
+	public OntModel poll(ModelServiceStub client,Long taskID, long pollTimeout,URL compound, CadasterModel model) throws Exception {
 		ModelResponse response = null;
 		FibonacciSequence sequence = new FibonacciSequence();
 
 		long now = System.currentTimeMillis();
 		long pollInterval = 5000;
 		while ((response==null) || OChemSOAPWrapper.TaskStatus.pending.toString().equals(response.getStatus())) {
-			response = queryTask(taskID);	
+			response = queryTask(client,taskID);	
 			long l = sequence.sleepInterval(pollInterval,true,1000 * 60 * 5);
 			Thread.sleep(l); 				
 			Thread.yield();
@@ -78,14 +78,12 @@ public class OChemSOAPWrapper {
 		return null;
 	}	
 	
-	public ModelResponse queryTask(Long taskID) throws Exception {
+	public ModelResponse queryTask(ModelServiceStub client,Long taskID) throws Exception {
 		try {
-			ModelServicePortType stub  = getService();
-			return stub.fetchModel(taskID);
-
-		} catch (AxisFault e) {
-			throw e;
-		} catch (RemoteException e) {
+			FetchModel fetchModelArg = new FetchModel();
+			fetchModelArg.setTaskId(taskID);
+			return client.fetchModel(fetchModelArg).get_return(); 
+		} catch (Exception e) {
 			throw e;
 		}		
 	}
@@ -109,16 +107,12 @@ public class OChemSOAPWrapper {
 	}
 	
 	
-	private ModelServicePortType getService() throws ServiceException
-	{
-
-		ModelServiceLocator locator = new ModelServiceLocator();
-		ModelServicePortType service = locator.getModelServiceHttpSoap11Endpoint();
-		return service;
-	}
 	
-	public long[] getAllModels() throws Exception {
-		return getService().getModelIDs("", ""); 	
+	public long[] getAllModels(ModelServiceStub client) throws Exception {
+		GetModelIDs getModelIdsArg = new GetModelIDs();
+		getModelIdsArg.setSessionId(""); //Optional
+		getModelIdsArg.setQueryOnName(""); //Optional
+		return client.getModelIDs(getModelIdsArg).get_return();
 	}
 	
 	 public String readSDF(URL uri) throws Exception {
