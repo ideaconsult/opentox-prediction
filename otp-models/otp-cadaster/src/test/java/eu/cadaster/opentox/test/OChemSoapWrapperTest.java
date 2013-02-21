@@ -64,7 +64,7 @@ public class OChemSoapWrapperTest {
 			GetModelName getModelNameArg = new GetModelName();
 			getModelNameArg.setPublicModelID(model);
 			String name = client.getModelName(getModelNameArg).get_return();
-			System.out.println(model+" - "+name);
+			System.out.println("#" + model+" - "+name);
 		}
 	}
 	@Test
