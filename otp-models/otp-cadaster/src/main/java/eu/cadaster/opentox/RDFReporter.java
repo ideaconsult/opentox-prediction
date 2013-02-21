@@ -48,7 +48,10 @@ public class RDFReporter {
 							null,
 							String.format("%s_ACCURACY",propred.getProperty()), null, propred.getAccuracy());
 					model.add(de,OTProperty.values.createProperty(model),fv);
-
+					fv = getFeature(model, m,
+							null,
+							String.format("%s_APPDOMAIN",propred.getProperty()), null, propred.getInAd()?"YES":"NO");
+					model.add(de,OTProperty.values.createProperty(model),fv);
 				}
 			}
 		}
@@ -66,6 +69,15 @@ public class RDFReporter {
 		return fv;
 	}
 	
-	
+	protected Individual getFeature(OntModel model,  Individual m, String uri, String property, String units, String value) throws Exception {
+		Individual fv = model.createIndividual(OTClass.FeatureValue.createOntClass(model));
+		Individual f = model.createIndividual(uri,OTClass.Feature.createOntClass(model));
+		model.add(f,DC.title,property);
+		model.add(f,OTProperty.hasSource.createProperty(model),m);
+		if (units!=null) model.add(f,DataProperty.units.createProperty(model),units);
+		model.add(fv,OTProperty.feature.createProperty(model),f);
+		model.add(fv,DataProperty.value.createProperty(model),model.createTypedLiteral(value));
+		return fv;
+	}
 
 }
