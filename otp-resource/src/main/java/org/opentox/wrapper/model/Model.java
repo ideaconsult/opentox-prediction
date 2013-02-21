@@ -11,7 +11,16 @@ public class Model  extends OTResource {
 	private static final long serialVersionUID = -8613828652999405200L;
 	protected String creator;
 	protected String id;
+	protected String endpoint;
 	
+	public String getEndpoint() {
+		return endpoint;
+	}
+
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
+
 	public String getId() {
 		return id;
 	}

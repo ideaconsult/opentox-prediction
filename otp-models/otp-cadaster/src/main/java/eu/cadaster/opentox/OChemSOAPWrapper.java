@@ -73,7 +73,7 @@ public class OChemSOAPWrapper {
 		if (response!=null) {
 			if (OChemSOAPWrapper.TaskStatus.success.toString().equals(response.getStatus())) {
 				RDFReporter reporter = new RDFReporter();
-				return reporter.process(compound.toString(),model.getUri(), response);
+				return reporter.process(compound.toString(),model, response);
 			} else return null;
 		}
 		return null;

@@ -11,15 +11,17 @@ import qspr.services.ModelServiceStub.PropertyPrediction;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.vocabulary.DC;
+import com.hp.hpl.jena.vocabulary.OWL;
 
 public class RDFReporter {
 
 	public RDFReporter() {
 		
 	}
-	public OntModel process(String compoundURI,String modelURI, ModelResponse response) throws Exception {
-		
+	public OntModel process(String compoundURI,CadasterModel cmodel, ModelResponse response) throws Exception {
+		String modelURI = cmodel.getUri();
 		OntModel model = OT.createModel();
 		Individual m = model.createIndividual(modelURI==null?null:modelURI.toString().trim(),OTClass.Model.createOntClass(model));
 		model.add(m,DC.title,response.getModelDescriptionUrl());
@@ -42,15 +44,15 @@ public class RDFReporter {
 					Individual fv = getFeature(
 							model, m, 
 							null,
-							propred.getProperty(), propred.getUnit(), propred.getValue());
+							propred.getProperty(), propred.getUnit(), propred.getValue(), cmodel.getEndpoint());
 					model.add(de,OTProperty.values.createProperty(model),fv);
 					fv = getFeature(model, m,
 							null,
-							String.format("%s_ACCURACY",propred.getProperty()), null, propred.getAccuracy());
+							String.format("%s_ACCURACY",propred.getProperty()), null, propred.getAccuracy(),null);
 					model.add(de,OTProperty.values.createProperty(model),fv);
 					fv = getFeature(model, m,
 							null,
-							String.format("%s_APPDOMAIN",propred.getProperty()), null, propred.getInAd()?"YES":"NO");
+							String.format("%s_INAPPDOMAIN",propred.getProperty()), null, propred.getInAd()?"YES":"NO");
 					model.add(de,OTProperty.values.createProperty(model),fv);
 				}
 			}
@@ -58,7 +60,7 @@ public class RDFReporter {
 		return model;
 	}
 	
-	protected Individual getFeature(OntModel model,  Individual m, String uri, String property, String units, double value) throws Exception {
+	protected Individual getFeature(OntModel model,  Individual m, String uri, String property, String units, double value,String endpoint) throws Exception {
 		Individual fv = model.createIndividual(OTClass.FeatureValue.createOntClass(model));
 		Individual f = model.createIndividual(uri,OTClass.Feature.createOntClass(model));
 		model.add(f,DC.title,property);
@@ -66,6 +68,11 @@ public class RDFReporter {
 		if (units!=null) model.add(f,DataProperty.units.createProperty(model),units);
 		model.add(fv,OTProperty.feature.createProperty(model),f);
 		model.add(fv,DataProperty.value.createProperty(model),model.createTypedLiteral(value));
+		
+		if (endpoint!=null) {
+			model.add(fv,OWL.sameAs,model.createTypedLiteral(value));
+		}
+	   
 		return fv;
 	}
 	
