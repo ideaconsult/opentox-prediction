@@ -35,6 +35,7 @@ public class OChemSOAPWrapper {
 	}
 	public Long applyModel(CadasterModel model, URL url) throws Exception {
 		String sdf = readSDF(url);
+		if (sdf==null) throw new Exception("Error reading sdf from "+url);
 		return applyModel(model.getModelID(),sdf);
 	}
 
@@ -134,10 +135,9 @@ public class OChemSOAPWrapper {
 						b.append("\n");
 					}
 					return b.toString();
-				}
-				return null;
+				} else throw new ResourceException(new Status(code),uc.getResponseMessage());
 			} catch (IOException x) {
-				if (code > 0) throw new ResourceException(new Status(code),x);
+				if (code > 0) throw new ResourceException(new Status(code));
 				else throw x;
 			} catch (Exception x) {
 				throw x;
