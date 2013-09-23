@@ -12,18 +12,19 @@
   <description>Renjin</description>
   <repositories>
   <repository>
-  <id>bedatadriven</id>
-  <name>Bedatadriven Public REpo</name>
-  <url>http://nexus.bedatadriven.com/content/groups/public/</url>
-	</repository>
+    <id>bedatadriven</id>
+    <name>bedatadriven public repo</name>
+    <url>http://nexus.bedatadriven.com/content/groups/public/</url>
+  </repository>
   </repositories>
   <dependencies>
+<!-- http://www.renjin.org/ -->
 <!--
   <dependency>
-  <groupId>com.bedatadriven.renjin</groupId>
-  <artifactId>renjin-core</artifactId>
-  <version>0.1.2-SNAPSHOT</version>
-</dependency>
+    <groupId>org.renjin</groupId>
+    <artifactId>renjin-script-engine</artifactId>
+    <version>0.7.0-RC6</version>
+  </dependency>
 -->
   </dependencies>
 </project>
